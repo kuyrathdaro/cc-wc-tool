@@ -4,7 +4,11 @@
   "description": "wc tool in node.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:babel": "babel src -d dist",
+    "build:linux": "npm run build:babel && pkg ./dist/index.js --target node16-linux-x64 --output ./dist/wc",
+    "build:win": "npm run build:babel && pkg ./dist/index.js --target node16-win-x64 --output ./dist/wc-win.exe",
+    "build": "npm run build:linux && npm run build:win",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,5 +22,26 @@
   "bugs": {
     "url": "https://github.com/kuyrathdaro/cc-wc-tool/issues"
   },
-  "homepage": "https://github.com/kuyrathdaro/cc-wc-tool#readme"
+  "homepage": "https://github.com/kuyrathdaro/cc-wc-tool#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "jest": "^29.7.0",
+    "pkg": "^5.8.1"
+  },
+  "type": "module",
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "16"
+          },
+          "modules": "commonjs"
+        }
+      ]
+    ]
+  }
 }
