@@ -1,4 +1,4 @@
-import { promises } from "fs";
+import fs from "fs";
 import { processInput, processFiles } from "./wc.js";
 
 // wc version
@@ -133,7 +133,7 @@ async function readFilesFrom(filesFrom, options) {
     await processFiles(files, options);
   } else {
     try {
-      const fileList = await promises.readFile(filesFrom, "utf-8");
+      const fileList = await fs.promises.readFile(filesFrom, "utf-8");
       const files = fileList.split("\0").filter(Boolean);
       await processFiles(files, options);
     } catch (err) {

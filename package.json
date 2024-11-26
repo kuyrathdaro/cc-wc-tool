@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build:babel": "babel src -d dist",
-    "build:linux": "npm run build:babel && pkg ./dist/index.js --target node16-linux-x64 --output ./dist/wc",
-    "build:win": "npm run build:babel && pkg ./dist/index.js --target node16-win-x64 --output ./dist/wc-win.exe",
-    "build": "npm run build:linux && npm run build:win",
+    "build:linux": "pkg ./dist/index.js --target node16-linux-x64 --output ./dist/wc",
+    "build:win": "pkg ./dist/index.js --target node16-win-x64 --output ./dist/wc-win.exe",
+    "build": "npm run build:babel && npm run build:linux && npm run build:win",
     "test": "jest"
   },
   "repository": {

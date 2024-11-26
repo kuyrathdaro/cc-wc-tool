@@ -8,21 +8,15 @@ async function processFiles(files, options) {
     chars: 0,
     maxLineLength: 0,
   };
+  const results = [];
 
   for (const file of files) {
     try {
       const data = await fs.promises.readFile(file, "utf-8");
-      const { lines, words, bytes, chars, maxLineLength } = processInput(
-        data,
-        options,
-        file
-      );
+      const stats = processInput(data, options);
+      results.push({ ...stats, name: file });
 
-      total.lines += lines;
-      total.words += words;
-      total.bytes += bytes;
-      total.chars += chars;
-      total.maxLineLength = Math.max(total.maxLineLength, maxLineLength);
+      Object.keys(total).forEach((key) => (total[key] += stats[key]));
     } catch (err) {
       console.error(`Error reading file ${file}: ${err.message}`);
       process.exit(1);
@@ -30,18 +24,12 @@ async function processFiles(files, options) {
   }
 
   if (files.length > 1) {
-    const results = [];
-    if (options.lines) results.push(total.lines.toString());
-    if (options.words) results.push(total.words.toString());
-    if (options.bytes) results.push(total.bytes.toString());
-    if (options.chars) results.push(total.chars.toString());
-    if (options.maxLineLength) results.push(total.maxLineLength.toString());
-
-    console.log(`${results.join("\t")} total`);
+    results.push({ ...total, name: "total" });
   }
+  displayResults(results, options);
 }
 
-function processInput(data, options, sourceName) {
+function processInput(data, options) {
   const lines = countLines(data);
   const words = countWords(data);
   const bytes = countBytes(data);
@@ -55,8 +43,6 @@ function processInput(data, options, sourceName) {
   if (options.chars) results.push(chars.toString());
   if (options.maxLineLength) results.push(maxLineLength.toString());
 
-  console.log(`${results.join("\t")} ${sourceName}`);
-
   return {
     lines,
     words,
@@ -66,7 +52,6 @@ function processInput(data, options, sourceName) {
   };
 }
 
-// Utility functions
 function countChars(text) {
   return text.length;
 }
@@ -90,6 +75,22 @@ function getMaxLineLength(text) {
   return text
     .split(/\r\n|\r|\n/)
     .reduce((max, line) => Math.max(max, line.length), 0);
+}
+
+function displayResults(results, options) {
+  const keys = ["lines", "words", "bytes", "chars", "maxLineLength"];
+  const widths = keys.map((key) =>
+    options[key] ? Math.max(...results.map((r) => r[key].toString().length)) : 0
+  );
+  const nameWidth = Math.max(...results.map((r) => r.name.length));
+
+  results.forEach((result) => {
+    const row = keys
+      .filter((key) => options[key])
+      .map((key, i) => result[key].toString().padStart(widths[i]))
+      .join(" ");
+    console.log(`  ${row} ${result.name.padEnd(nameWidth)}`);
+  });
 }
 
 export { processFiles, processInput };
