@@ -1,0 +1,22 @@
+{
+  "name": "cc-wc-tool",
+  "version": "1.0.0",
+  "description": "wc tool in node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kuyrathdaro/cc-wc-tool.git"
+  },
+  "keywords": [
+    "wc"
+  ],
+  "author": "Rathdaro Kuy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kuyrathdaro/cc-wc-tool/issues"
+  },
+  "homepage": "https://github.com/kuyrathdaro/cc-wc-tool#readme"
+}
