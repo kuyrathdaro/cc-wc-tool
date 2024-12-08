@@ -1,12 +1,12 @@
 {
   "name": "cc-wc-tool",
-  "version": "1.0.0",
-  "description": "wc tool in node.js",
+  "version": "1.0.1",
+  "description": "ccwc tool in node.js",
   "main": "index.js",
   "scripts": {
     "build:babel": "babel src -d dist",
-    "build:linux": "pkg ./dist/index.js --target node16-linux-x64 --output ./dist/wc",
-    "build:win": "pkg ./dist/index.js --target node16-win-x64 --output ./dist/wc-win.exe",
+    "build:linux": "pkg ./dist/index.js --target node16-linux-x64 --output ./dist/ccwc",
+    "build:win": "pkg ./dist/index.js --target node16-win-x64 --output ./dist/ccwc-win.exe",
     "build": "npm run build:babel && npm run build:linux && npm run build:win",
     "test": "jest"
   },
@@ -15,7 +15,7 @@
     "url": "git+ssh://git@github.com/kuyrathdaro/cc-wc-tool.git"
   },
   "keywords": [
-    "wc"
+    "ccwc"
   ],
   "author": "Rathdaro Kuy",
   "license": "ISC",

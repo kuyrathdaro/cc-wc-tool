@@ -1,12 +1,12 @@
 import fs from "fs";
-import { processInput, processFiles } from "./wc.js";
+import { processInput, processFiles, displayResults } from "./ccwc.js";
 
-// wc version
-const VERSION = "1.0.0";
+// ccwc version
+const VERSION = "1.0.1";
 
 function printHelp() {
-  const HELP_TEXT = `Usage: wc [OPTION]... [FILE]...
-or:  wc [OPTION]... --files0-from=F
+  const HELP_TEXT = `Usage: ccwc [OPTION]... [FILE]...
+or:  ccwc [OPTION]... --files0-from=F
 Description:
     Print newline, word, and byte counts for each FILE, and a total line if
     more than one FILE is specified.  A word is a non-zero-length sequence of
@@ -49,6 +49,10 @@ async function main(args) {
       case "--bytes":
         options.bytes = true;
         break;
+      case "-w":
+      case "--words":
+        options.words = true;
+        break;
       case "-m":
       case "--chars":
         options.chars = true;
@@ -62,7 +66,7 @@ async function main(args) {
         options.maxLineLength = true;
         break;
       case "--version":
-        console.log(`wc version ${VERSION}`);
+        console.log(`ccwc version ${VERSION}`);
         return;
       case "--help":
         printHelp();
@@ -72,7 +76,7 @@ async function main(args) {
           filesFrom = arg.split("=")[1];
         } else if (arg.startsWith("-")) {
           console.error(
-            `wc: unrecognized option ${arg}\nTry 'wc --help' for more information.`
+            `ccwc: unrecognized option ${arg}\nTry 'ccwc --help' for more information.`
           );
           process.exit(1);
         } else {
@@ -110,16 +114,20 @@ async function main(args) {
 
 // Read input from stdin
 async function readFromStdin(options) {
-  let inputData = "";
-  process.stdin.on("data", (chunk) => {
+  let inputData = '';
+  process.stdin.setEncoding('utf-8');
+
+  process.stdin.on('data', (chunk) => {
     inputData += chunk;
   });
 
-  process.stdin.on("end", () => {
-    processInput(inputData, options, "stdin");
+  process.stdin.on('end', () => {
+    // Process input and display results
+    const stats = processInput(inputData, options);
+    displayResults([{ ...stats, name: "" }], options);  // Ensure results are displayed
   });
 
-  process.stdin.resume(); // Start reading from stdin
+  process.stdin.resume();  // Start reading from stdin
 }
 
 // Read file names from a file or stdin
@@ -137,7 +145,7 @@ async function readFilesFrom(filesFrom, options) {
       const files = fileList.split("\0").filter(Boolean);
       await processFiles(files, options);
     } catch (err) {
-      console.error(`wc: ${filesFrom}: No such file or directory`);
+      console.error(`ccwc: ${filesFrom}: No such file or directory`);
       process.exit(1);
     }
   }
