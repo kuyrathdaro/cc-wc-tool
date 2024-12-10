@@ -2,7 +2,7 @@ import fs from "fs";
 import { processInput, processFiles, displayResults } from "./ccwc.js";
 
 // ccwc version
-const VERSION = "1.0.1";
+const VERSION = "1.1.0";
 
 function printHelp() {
   const HELP_TEXT = `Usage: ccwc [OPTION]... [FILE]...

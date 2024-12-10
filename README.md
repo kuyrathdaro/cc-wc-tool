@@ -16,32 +16,90 @@ This tool was built as a solution to a coding challenge that aimed to replicate 
 
 ## Installation
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/kuyrathdaro/cc-wc-tool.git
-   cd cc-wc-tool
-   ```
+### Clone this repository:
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Build executables:
+```bash
+git clone https://github.com/kuyrathdaro/cc-wc-tool.git
+cd cc-wc-tool
+```
+
+### Install dependencies:
+
+```bash
+npm install
+```
+
+### Build executables:
    
-    The project includes a build script to generate executable files for Windows and Linux platforms.
+The project includes a build script to generate executable files for Windows and Linux platforms.
 
-    Run the build script:
-    ```bash
-    npm run build
-    ```
-    This will create executable files in the dist/ directory:
+Run the build script:
 
-    For Windows: wc-tool.exe
+```bash
+npm run build
+```
 
-    For Linux: wc-tool
+This will create executable files in the dist/ directory:
 
-    Move the executable to a directory in your system's PATH for global usage. For example
+For Windows: **ccwc-win.exe**
 
-    ```bash
-    mv dist/wc-tool /usr/local/bin/wc-tool
-    ```
+For Linux: **ccwc**
+
+Move the executable to a directory in your system's PATH for global usage. For example
+
+```bash
+mv dist/ccwc /usr/local/bin/ccwc
+```
+
+## Usage
+
+Run the tool with the following syntax:
+
+```bash
+ccwc <file1> <file2>
+```
+
+Example:
+
+```bash
+ccwc file1.txt file2.txt
+```
+
+This will display the line, word, and character counts for each file and the total for all files.
+
+## Tests
+
+To ensure the tool is functioning as expected, tests are included in the project.
+
+### Running Tests
+
+Ensure all dependencies are installed:
+
+```bash
+npm install
+```
+
+Run the tests:
+
+```bash
+npm run test
+```
+
+The tests will validate:
+
+- Byte counting.
+- Line counting.
+- Word counting.
+- Character counting.
+- Read from stdin.
+
+### Adding New Tests
+
+You can add test cases by modifying or extending the files in the tests/ directory. Tests are written using Jest, a simple JavaScript testing framework.
+
+To run specific tests:
+
+```bash
+npm run test -- <test-file-name>
+```
+
