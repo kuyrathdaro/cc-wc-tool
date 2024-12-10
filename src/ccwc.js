@@ -93,4 +93,4 @@ function displayResults(results, options) {
   });
 }
 
-export { processFiles, processInput };
+export { processFiles, processInput, displayResults };
